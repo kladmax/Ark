@@ -1,0 +1,17 @@
+/* src/app/Home.module.scss — Scoped стилі для лендінгу. */
+$primary-color: #007bff;
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  margin-top: 20px;
+  &:hover {
+    background-color: #0056b3; /* Ручна заміна darken(#007bff, 10%). */
+  }
+}
