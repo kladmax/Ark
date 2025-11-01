@@ -1,10 +1,11 @@
 // src/app/layout.tsx
 import type { Metadata } from 'next';
 import './globals.scss';
+import ThemeProvider from './ThemeProvider';
 
 export const metadata: Metadata = {
-  title: 'Ark - CMS Hybrid MVP | MaxDevStudio',
-  description: 'Standalone template з hooks для CMS Hub.',
+  title: 'Ark - Apocalypse Timer',
+  description: 'Час до кінця світу.',
 };
 
 export default function RootLayout({
@@ -14,7 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="uk">
-      <body>{children}</body>
+      <body>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

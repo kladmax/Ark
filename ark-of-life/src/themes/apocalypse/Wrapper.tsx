@@ -1,22 +1,22 @@
-// src/themes/default/Wrapper.tsx
+// src/themes/apocalypse/Wrapper.tsx
 'use client';
 
 import styles from './theme.module.scss';
 
 export default function Wrapper({ children }: { children: React.ReactNode }) {
   return (
-    <div className={styles.light}>
-      {/* КНОПКА API — ЗЕЛЕНА */}
+    <div className={styles.dark}>
+      {/* КНОПКА API — ФІОЛЕТОВА */}
       <style jsx global>{`
         .theme-action-btn {
-          background-color: #28a745 !important;
-          border-color: #28a745 !important;
+          background-color: #6f42c1 !important;
+          border-color: #6f42c1 !important;
           color: #fff !important;
           transition: all 0.2s ease;
         }
         .theme-action-btn:hover {
-          background-color: #1e7e34 !important;
-          border-color: #1c6b2d !important;
+          background-color: #5a32a3 !important;
+          border-color: #4c2a85 !important;
         }
       `}</style>
 
