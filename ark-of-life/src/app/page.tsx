@@ -1,32 +1,74 @@
-// src/app/page.tsx — Standalone лендінг з dynamic theme і API hook.
 'use client';
 
 import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';  // виправлений імпорт
-import styles from './Home.module.scss';  // CSS Modules.
+import dynamic from 'next/dynamic';
+import styles from './Home.module.scss';
 
-// Дефолтні дані для standalone mode.
-const localData = {
+interface ThemeData {
+  id: number;
+  name: string;
+  price: number;
+  description?: string;
+}
+
+interface ApiData {
+  title: string;
+  buttonText: string;
+}
+
+const localData: ApiData = {
   title: 'Ark - CMS Hybrid MVP',
   buttonText: 'Клікни для демо',
 };
 
-// Dynamic theme component (завантажуємо з /src/themes).
-const ThemeWrapper = dynamic(() => import('@/themes/default/Wrapper'), { ssr: false });
+const ThemeWrapper = dynamic(() => import('@/themes/default/Wrapper'), { 
+  ssr: false 
+});
 
 export default function Home() {
-  const [data, setData] = useState(localData);
+  const [data, setData] = useState<ApiData>(localData);
   const [count, setCount] = useState(0);
+  const [themes, setThemes] = useState<ThemeData[]>([]);
 
   useEffect(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_CMS_HUB_API;
-    if (apiUrl) {
-      // Connected mode: fetch з CMS Hub API.
-      fetch(`${apiUrl}/content`)
-        .then(res => res.json())
-        .then(apiData => setData(apiData))
-        .catch(() => console.log('API error, using local data'));
-    }
+    const fetchData = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_CMS_HUB_API || '/api/content';
+        
+        // Логуємо URL для дебагу
+        console.log('Fetching content from:', apiUrl);
+        console.log('Fetching store from: /api/store');
+        
+        const contentRes = await fetch(apiUrl);
+        const storeRes = await fetch('/api/store');
+
+        // Логуємо статуси відповідей
+        console.log('Content API status:', contentRes.status);
+        console.log('Store API status:', storeRes.status);
+
+        if (!contentRes.ok) {
+          throw new Error(`Content API failed with status: ${contentRes.status}`);
+        }
+        if (!storeRes.ok) {
+          throw new Error(`Store API failed with status: ${storeRes.status}`);
+        }
+
+        const apiData: ApiData = await contentRes.json();
+        const storeData: ThemeData[] = await storeRes.json();
+
+        setData(apiData);
+        setThemes(storeData);
+      } catch (error) {
+        console.error('API error details:', error);
+        // Використовуємо локальні дані при помилці
+        setData(localData);
+        setThemes([
+          { id: 1, name: 'Default Theme', description: 'Базова тема', price: 0 }
+        ]);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -40,6 +82,13 @@ export default function Home() {
         >
           {data.buttonText} ({count})
         </button>
+        <ul>
+          {themes.map((theme) => (
+            <li key={theme.id}>
+              {theme.name} - ${theme.price}
+            </li>
+          ))}
+        </ul>
       </main>
     </ThemeWrapper>
   );
