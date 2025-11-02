@@ -1,22 +1,26 @@
-// src/themes/apocalypse/Wrapper.tsx
+// src/themes/apocalypse/Wrapper.tsx — Темна тема: зомбі-апокаліпсис
 'use client';
 
+import { useContext } from 'react';
+import { ThemeContext } from '@/app/ThemeProvider';
 import styles from './theme.module.scss';
 
 export default function Wrapper({ children }: { children: React.ReactNode }) {
+  const { isDark } = useContext(ThemeContext);
+
   return (
-    <div className={styles.dark}>
-      {/* КНОПКА API — ФІОЛЕТОВА */}
+    <div className={isDark ? styles.dark : styles.light}>
+      {/* Стилі кнопки — червоні (зомбі) */}
       <style jsx global>{`
         .theme-action-btn {
-          background-color: #6f42c1 !important;
-          border-color: #6f42c1 !important;
+          background-color: #dc143c !important;
+          border-color: #dc143c !important;
           color: #fff !important;
           transition: all 0.2s ease;
         }
         .theme-action-btn:hover {
-          background-color: #5a32a3 !important;
-          border-color: #4c2a85 !important;
+          background-color: #b3001e !important;
+          border-color: #a0001a !important;
         }
       `}</style>
 

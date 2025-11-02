@@ -1,7 +1,14 @@
-// src/themes/apocalypse/theme.module.scss
+// src/themes/apocalypse/theme.module.scss — Темна: зомбі-апокаліпсис
 .dark {
-  background: linear-gradient(135deg, #000000 0%, #1a0000 100%);
+  background: linear-gradient(135deg, #0a0000 0%, #1a0000 100%);
   color: #ffffff;
+  min-height: 100vh;
+  transition: all 0.5s ease;
+}
+
+.light {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #212529;
   min-height: 100vh;
   transition: all 0.5s ease;
 }

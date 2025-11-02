@@ -1,11 +1,12 @@
-// src/app/layout.tsx
+// src/app/layout.tsx — Server Component: metadata + Bootstrap JS
 import type { Metadata } from 'next';
 import './globals.scss';
-import ThemeProvider from './ThemeProvider';
+// import ClientLayout from './ClientLayout';
+import ClientLayout from '@/app/ClientLayout';
 
 export const metadata: Metadata = {
-  title: 'Ark - Apocalypse Timer',
-  description: 'Час до кінця світу.',
+  title: 'Ark - Apocalypse CMS Hybrid',
+  description: 'Portfolio and donation platform',
 };
 
 export default function RootLayout({
@@ -14,11 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="uk">
-      <body>
-        <ThemeProvider>
+    <html lang="en" className="h-full">
+      <body className="h-full overflow-hidden">
+        <ClientLayout>
           {children}
-        </ThemeProvider>
+        </ClientLayout>
       </body>
     </html>
   );

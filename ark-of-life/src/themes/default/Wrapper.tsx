@@ -1,4 +1,4 @@
-// src/themes/default/Wrapper.tsx
+// src/themes/default/Wrapper.tsx — Світла тема: Ковчег
 'use client';
 
 import styles from './theme.module.scss';
@@ -6,17 +6,17 @@ import styles from './theme.module.scss';
 export default function Wrapper({ children }: { children: React.ReactNode }) {
   return (
     <div className={styles.light}>
-      {/* КНОПКА API — ЗЕЛЕНА */}
+      {/* Стилі кнопки — сині (спасіння) */}
       <style jsx global>{`
         .theme-action-btn {
-          background-color: #28a745 !important;
-          border-color: #28a745 !important;
+          background-color: #007bff !important;
+          border-color: #007bff !important;
           color: #fff !important;
           transition: all 0.2s ease;
         }
         .theme-action-btn:hover {
-          background-color: #1e7e34 !important;
-          border-color: #1c6b2d !important;
+          background-color: #0056b3 !important;
+          border-color: #004085 !important;
         }
       `}</style>
 

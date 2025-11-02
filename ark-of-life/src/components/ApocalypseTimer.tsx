@@ -1,53 +1,67 @@
-// src/components/ApocalypseTimer.tsx
+// src/components/ApocalypseTimer.tsx — Чіткі цифри, м'який неон, ізольований
 'use client';
 
 import { useState, useEffect } from 'react';
 
 export default function ApocalypseTimer() {
-  const [timeLeft, setTimeLeft] = useState('');
+  const target = new Date('2025-11-11T00:00:00').getTime();
+  const [time, setTime] = useState({ d: 0, h: 0, m: 0, s: 0 });
 
   useEffect(() => {
-    const getNextApocalypse = () => {
-      const now = new Date();
-      const year = now.getFullYear();
-      let apocalypse = new Date(`${year}-11-11T00:00:00`);
-      if (now > apocalypse) apocalypse.setFullYear(year + 1);
-      if (apocalypse.getFullYear() > 3000) return null;
-      return apocalypse;
-    };
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const diff = target - now;
 
-    const apocalypse = getNextApocalypse();
-    if (!apocalypse) {
-      setTimeLeft('Апокаліпсис скасовано');
-      return;
-    }
-
-    const timer = setInterval(() => {
-      const diff = apocalypse.getTime() - Date.now();
-      if (diff <= 0) {
-        setTimeLeft('АПОКАЛІПСИС!');
-        clearInterval(timer);
-        return;
+      if (diff > 0) {
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+        setTime({ d, h, m, s });
       }
-      const days = Math.floor(diff / (86400000));
-      const hours = Math.floor((diff % 86400000) / 3600000);
-      const minutes = Math.floor((diff % 3600000) / 60000);
-      const seconds = Math.floor((diff % 60000) / 1000);
-      setTimeLeft(`${days}д ${hours}г ${minutes}х ${seconds}с`);
     }, 1000);
 
-    return () => clearInterval(timer);
-  }, []);
+    return () => clearInterval(interval);
+  }, [target]);
 
   return (
-    <h1
-      className="font-mono font-black tracking-wider drop-shadow-lg"
-      style={{
-        fontSize: 'clamp(2.5rem, 8vw, 5rem)',
-        textShadow: '0 0 20px rgba(255, 51, 51, 0.8)',
-      }}
-    >
-      {timeLeft}
-    </h1>
+    <div className="apocalypse-timer-container">
+      <div className="apocalypse-timer">
+        {time.d} Days {String(time.h).padStart(2, '0')}:{String(time.m).padStart(2, '0')}:{String(time.s).padStart(2, '0')}
+      </div>
+
+      <style jsx>{`
+        .apocalypse-timer-container {
+          display: inline-block;
+          padding: 1rem 1.5rem;
+          background: rgba(0, 0, 0, 0.4);
+          border-radius: 16px;
+          border: 1px solid #ff3333;
+          box-shadow: 0 0 15px rgba(255, 51, 51, 0.6);
+        }
+        .apocalypse-timer {
+          font-size: 4.5rem;
+          font-weight: 900;
+          color: #ff1a1a;
+          text-shadow: 
+            0 0 5px #ff0000,
+            0 0 10px #ff0000,
+            0 0 20px #ff0000,
+            0 0 30px #ff0000;
+          letter-spacing: 0.12em;
+          font-family: 'Courier New', monospace;
+          line-height: 1.1;
+        }
+        @media (min-width: 640px) {
+          .apocalypse-timer { font-size: 5.5rem; }
+        }
+        @media (min-width: 768px) {
+          .apocalypse-timer { font-size: 6.5rem; }
+        }
+        @media (min-width: 1024px) {
+          .apocalypse-timer { font-size: 7.5rem; }
+        }
+      `}</style>
+    </div>
   );
 }
