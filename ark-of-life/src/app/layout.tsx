@@ -1,11 +1,10 @@
-// src/app/layout.tsx — Server Component: metadata + Bootstrap JS
+// src/app/layout.tsx — Server Component: metadata + children
 import type { Metadata } from 'next';
 import './globals.scss';
-// import ClientLayout from './ClientLayout';
-import ClientLayout from '@/app/ClientLayout';
+import ClientLayout from './ClientLayout';
 
 export const metadata: Metadata = {
-  title: 'Ark - Apocalypse CMS Hybrid',
+  title: 'CMS Hybrid Studio',
   description: 'Portfolio and donation platform',
 };
 
@@ -16,10 +15,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <body className="h-full overflow-hidden">
-        <ClientLayout>
-          {children}
-        </ClientLayout>
+      <body className="h-full d-flex flex-column">
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
