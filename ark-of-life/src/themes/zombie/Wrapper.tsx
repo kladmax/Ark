@@ -1,4 +1,4 @@
-// src/themes/apocalypse/Wrapper.tsx — Темна тема: зомбі-апокаліпсис
+// src/themes/zombie/Wrapper.tsx — Zombie: повна висота, без padding
 'use client';
 
 import { useContext } from 'react';
@@ -9,7 +9,7 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
   const { isDark } = useContext(ThemeContext);
 
   return (
-    <div className={isDark ? styles.dark : styles.light}>
+    <div className={`${isDark ? styles.dark : styles.light} min-vh-100 d-flex flex-column`}>
       {/* Стилі кнопки — червоні (зомбі) */}
       <style jsx global>{`
         .theme-action-btn {
@@ -24,9 +24,7 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
         }
       `}</style>
 
-      <div className="container mx-auto p-6 md:p-10">
-        {children}
-      </div>
+      {children}
     </div>
   );
 }

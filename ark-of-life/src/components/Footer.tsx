@@ -1,7 +1,7 @@
 // src/components/Footer.tsx
 export default function Footer() {
   return (
-    <footer className="bg-maroon text-white py-3 mt-auto w-100">
+    <footer className="bg-maroon text-white py-3 mt-auto">
       <div className="container">
         <div className="row">
           <div className="col-md-6 text-center text-md-start">

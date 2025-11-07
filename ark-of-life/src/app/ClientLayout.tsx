@@ -1,4 +1,4 @@
-// src/app/ClientLayout.tsx — Client Component: Navbar, Footer, ThemeProvider
+// src/app/ClientLayout.tsx
 'use client';
 
 import ThemeProvider from './ThemeProvider';
@@ -10,7 +10,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   return (
     <ThemeProvider>
       <Navbar />
-      <main className="flex-grow-1">{children}</main>
+      {children} {/* ← main тепер у page.tsx або Wrapper */}
       <Footer />
       <Script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
