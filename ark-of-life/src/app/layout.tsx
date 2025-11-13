@@ -4,7 +4,7 @@ import './globals.scss';
 import ClientLayout from './ClientLayout';
 
 export const metadata: Metadata = {
-  title: 'CMS Hybrid Studio',
+  title: 'Lite CMS Studio',
   description: 'Portfolio and donation platform',
 };
 
