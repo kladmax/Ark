@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   return NextResponse.json({
-    title: 'CMS Hybrid Studio', // ← ТУТ БУЛО "API Content from CMS Hub"
+    title: 'Lite CMS Studio', // ← ТУТ БУЛО "API Content from CMS Hub"
     buttonText: 'Клікни з API',
   });
 }

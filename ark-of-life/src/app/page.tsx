@@ -90,7 +90,7 @@ export default function Home() {
             {isDark ? (
               <>
                 <p className="mb-2">
-                  <strong>The Prophecy:</strong> Aliens warned Philip Barnett in 1997: <em>"Zombies will rise on 11.11.2025."</em>
+                  <strong>The Prophecy:</strong> Philip Barnett in 2007: <em>"Zombies will rise on 11.11.2026."</em>
                 </p>
                 <p className="mb-0">
                   <Link href="/details" className="text-danger text-decoration-underline">
@@ -101,7 +101,7 @@ export default function Home() {
             ) : (
               <>
                 <p className="mb-2">
-                  <strong>The Ark Project:</strong> A digital shelter built on CMS Hybrid.
+                  <strong>The Ark Project:</strong> A digital shelter built on Lite CMS Studio.
                 </p>
                 <p className="mb-0">
                   <Link href="/details" className="text-info text-decoration-underline">

@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-maroon fixed-top">
       <div className="container-fluid">
-        <a className="navbar-brand fw-bold" href="/">CMS Hybrid Studio</a>
+        <a className="navbar-brand fw-bold" href="/">Lite CMS Studio</a>
         <button
           className="navbar-toggler"
           type="button"
