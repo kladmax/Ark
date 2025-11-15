@@ -1,4 +1,4 @@
-// src/app/page.tsx — Без миготіння, тільки API
+// src/app/page.tsx — Головна: без лейблу, таймер в центрі
 'use client';
 
 import { useState, useEffect, useContext } from 'react';
@@ -6,40 +6,27 @@ import Link from 'next/link';
 import { ThemeContext } from './ThemeProvider';
 import ApocalypseTimer from '@/components/ApocalypseTimer';
 import ThemeToggleButton from '@/components/ThemeToggleButton';
-import WorldClock from '@/components/WorldClock';
 
 interface ApiData {
   title: string;
   buttonText: string;
 }
 
+const localData: ApiData = {
+  title: 'Lite CMS Studio',
+  buttonText: 'Prepare',
+};
+
 export default function Home() {
-  const [data, setData] = useState<ApiData | null>(null);
+  const [data, setData] = useState<ApiData>(localData);
   const { isDark } = useContext(ThemeContext);
 
   useEffect(() => {
     fetch('/api/content')
       .then(r => r.json())
       .then(setData)
-      .catch(() => {
-        // Якщо API впаде — fallback
-        setData({ title: 'CMS Hybrid Studio', buttonText: 'Prepare' });
-      });
+      .catch(() => console.log('API error'));
   }, []);
-
-  // Поки дані не завантажились — лоадер
-  if (!data) {
-    return (
-      <main className="flex-grow-1 d-flex align-items-center justify-content-center">
-        <div className="text-center">
-          <div className="spinner-border text-danger" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <p className="mt-3 text-white">Завантаження CMS...</p>
-        </div>
-      </main>
-    );
-  }
 
   return (
     <>
@@ -70,21 +57,12 @@ export default function Home() {
               : 'The Ark of salvation awaits. Build with us for a brighter future.'}
           </p>
 
-          <p className={`fs-3 mb-3 fw-bold ${isDark ? 'text-white' : 'text-dark'}`}>
-            Time to {isDark ? 'Zombie Apocalypse' : 'Salvation'}:
-          </p>
-
+          {/* Таймер — лейбл перенесено в компонент */}
           <div className="d-flex justify-content-center mb-4">
             <ApocalypseTimer />
           </div>
 
-          <div className="mb-5">
-            <ThemeToggleButton />
-          </div>
-
-          <div className="my-5">
-            <WorldClock />
-          </div>
+          <ThemeToggleButton />
 
           <div className="disclaimer-box mx-auto">
             {isDark ? (
