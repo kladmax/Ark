@@ -1,3 +1,4 @@
+// src/app/ThemeProvider.tsx — додано кольори Navbar/Footer
 'use client';
 
 import React, { createContext, useState, useEffect, type ReactNode, type ComponentType } from 'react';
@@ -13,6 +14,7 @@ export const ThemeContext = createContext<ThemeContextType>({
   toggleTheme: () => {},
 });
 
+// Виправлено: zombie замість apocalypse, ark замість default
 const ZombieWrapper = dynamic(() => import('@/themes/zombie/Wrapper'), { ssr: false }) as ComponentType<{ children?: ReactNode }>;
 const ArkWrapper = dynamic(() => import('@/themes/ark/Wrapper'), { ssr: false }) as ComponentType<{ children?: ReactNode }>;
 
@@ -27,17 +29,38 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    // debug
-    console.log('[ThemeProvider] isDark=', isDark);
     try {
       localStorage.setItem('ark_theme', isDark ? 'dark' : 'light');
     } catch {}
-    // ставимо data-атрибут на body — менше конфліктів з іншими класами
+
     if (typeof document !== 'undefined') {
       document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
-      // додатково можна добавити класи, якщо потрібні:
-      document.body.classList.toggle('theme-dark', isDark);
-      document.body.classList.toggle('theme-light', !isDark);
+
+      // === ВИПРАВЛЕННЯ КОЛЬОРІВ NAVBAR/FOOTER ===
+      const style = document.createElement('style');
+      style.id = 'navbar-footer-theme';
+      style.textContent = isDark
+        ? `
+          .navbar, footer {
+            background-color: #800000 !important;
+            color: #fff !important;
+          }
+          .navbar .nav-link { color: #fff !important; }
+          .navbar .nav-link:hover { color: #ff6666 !important; }
+        `
+        : `
+          .navbar, footer {
+            background-color: #343a40 !important;
+            color: #fff !important;
+          }
+          .navbar .nav-link { color: #fff !important; }
+          .navbar .nav-link:hover { color: #adb5bd !important; }
+        `;
+      document.head.appendChild(style);
+
+      return () => {
+        document.getElementById('navbar-footer-theme')?.remove();
+      };
     }
   }, [isDark]);
 
