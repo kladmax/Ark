@@ -14,19 +14,21 @@ export const ThemeContext = createContext<ThemeContextType>({
   toggleTheme: () => {},
 });
 
-// Виправлено: zombie замість apocalypse, ark замість default
 const ZombieWrapper = dynamic(() => import('@/themes/zombie/Wrapper'), { ssr: false }) as ComponentType<{ children?: ReactNode }>;
 const ArkWrapper = dynamic(() => import('@/themes/ark/Wrapper'), { ssr: false }) as ComponentType<{ children?: ReactNode }>;
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
-  const [isDark, setIsDark] = useState<boolean>(() => {
+  const [isDark, setIsDark] = useState<boolean>(true); // Встановлено true за замовченням
+
+  useEffect(() => {
+    // Завантажити зі localStorage лише на клієнті
     try {
-      const saved = typeof window !== 'undefined' ? localStorage.getItem('ark_theme') : null;
-      return saved ? saved === 'dark' : true;
-    } catch {
-      return true;
-    }
-  });
+      const saved = localStorage.getItem('ark_theme');
+      if (saved) {
+        setIsDark(saved === 'dark');
+      }
+    } catch {}
+  }, []);
 
   useEffect(() => {
     try {
@@ -37,6 +39,11 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
       document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
 
       // === ВИПРАВЛЕННЯ КОЛЬОРІВ NAVBAR/FOOTER ===
+      const existingStyle = document.getElementById('navbar-footer-theme');
+      if (existingStyle) {
+        existingStyle.remove();
+      }
+
       const style = document.createElement('style');
       style.id = 'navbar-footer-theme';
       style.textContent = isDark
@@ -57,10 +64,6 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
           .navbar .nav-link:hover { color: #adb5bd !important; }
         `;
       document.head.appendChild(style);
-
-      return () => {
-        document.getElementById('navbar-footer-theme')?.remove();
-      };
     }
   }, [isDark]);
 

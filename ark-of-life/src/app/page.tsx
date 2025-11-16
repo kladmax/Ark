@@ -4,9 +4,9 @@
 import { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import { ThemeContext } from './ThemeProvider';
-import ApocalypseTimer from '@/components/ApocalypseTimer';  // Вічний таймер апокаліпсису
-import ThemeToggleButton from '@/components/ThemeToggleButton';  // Кнопка перемикання тем
-import WorldClock from '@/components/WorldClock';  // ← Підключено: світовий годинник з зонами
+import ApocalypseTimer from '@/components/ApocalypseTimer';
+import ThemeToggleButton from '@/components/ThemeToggleButton';
+import WorldClock from '@/components/WorldClock';
 
 interface ApiData {
   title: string;
@@ -14,21 +14,20 @@ interface ApiData {
 }
 
 export default function Home() {
-  const [data, setData] = useState<ApiData | null>(null);  // Початковий стан — null для лоадера
-  const { isDark } = useContext(ThemeContext);  // Контекст теми для кольорів
+  const [data, setData] = useState<ApiData | null>(null);
+  const { isDark } = useContext(ThemeContext);
 
-  // Завантаження контенту з API (єдиний джерело правди)
+  // Завантаження контенту з API
   useEffect(() => {
     fetch('/api/content')
       .then(r => r.json())
       .then(setData)
       .catch(() => {
-        // Fallback, якщо API впаде — не миготить
         setData({ title: 'Lite CMS Studio', buttonText: 'Prepare' });
       });
   }, []);
 
-  // Лоадер, поки дані не завантажились (без миготіння)
+  // Лоадер, поки дані не завантажились
   if (!data) {
     return (
       <main className="flex-grow-1 d-flex align-items-center justify-content-center">
@@ -44,11 +43,18 @@ export default function Home() {
 
   return (
     <>
-      {/* Глобальні стилі (бордовий меню, дисклеймер, без конфліктів) */}
+      {/* Глобальні стилі — ВИДАЛЕНО .bg-maroon */}
       <style jsx global>{`
-        .bg-maroon { background-color: #800000 !important; }
-        .bg-maroon .navbar-nav .nav-link { color: #fff !important; }
-        .bg-maroon .navbar-nav .nav-link:hover { color: #ff6666 !important; }
+        .theme-action-btn {
+          background-color: #dc143c !important;
+          border-color: #dc143c !important;
+          color: #fff !important;
+          transition: all 0.2s ease;
+        }
+        .theme-action-btn:hover {
+          background-color: #b3001e !important;
+          border-color: #a0001a !important;
+        }
         .disclaimer-box {
           background: rgba(0,0,0,0.5);
           border: 1px solid #ff3333;
@@ -60,38 +66,31 @@ export default function Home() {
         }
       `}</style>
 
-      {/* Основний контент — гумовий, по центру */}
+      {/* Основний контент */}
       <main className="flex-grow-1 d-flex align-items-center justify-content-center py-5">
         <div className="container text-center">
-
-          {/* Заголовок — з API */}
           <h1 className="display-3 fw-bold mb-4 animate__animated animate__pulse">
             {data.title}
           </h1>
 
-          {/* Опис залежно від теми */}
           <p className="lead mb-4">
             {isDark
               ? 'Zombies are coming. The apocalypse is near. Prepare or perish.'
               : 'The Ark of salvation awaits. Build with us for a brighter future.'}
           </p>
 
-          {/* Таймер — в центрі */}
           <div className="d-flex justify-content-center mb-4">
             <ApocalypseTimer />
           </div>
 
-          {/* Кнопка перемикання тем */}
           <div className="mb-5">
             <ThemeToggleButton />
           </div>
 
-          {/* НОВИЙ КОМПОНЕНТ: WorldClock — під таймером */}
           <div className="my-5">
             <WorldClock />
           </div>
 
-          {/* Дисклеймер — в рамці */}
           <div className="disclaimer-box mx-auto">
             {isDark ? (
               <>
