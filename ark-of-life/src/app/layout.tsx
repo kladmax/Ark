@@ -1,4 +1,4 @@
-// src/app/layout.tsx — Server Component: metadata + children
+// src/app/layout.tsx — додаємо data-theme на body
 import type { Metadata } from 'next';
 import './globals.scss';
 import ClientLayout from './ClientLayout';
@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <body className="h-full d-flex flex-column">
+      <body className="h-full d-flex flex-column" data-theme="dark"> {/* ← додаємо data-theme */}
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

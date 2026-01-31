@@ -1,4 +1,4 @@
-// src/app/page.tsx — Головна сторінка Lite CMS Studio з WorldClock
+// src/app/page.tsx — повертаємо display-4 і правильні кольори
 'use client';
 
 import { useState, useEffect, useContext } from 'react';
@@ -17,107 +17,65 @@ export default function Home() {
   const [data, setData] = useState<ApiData | null>(null);
   const { isDark } = useContext(ThemeContext);
 
-  // Завантаження контенту з API
   useEffect(() => {
     fetch('/api/content')
       .then(r => r.json())
       .then(setData)
-      .catch(() => {
-        setData({ title: 'Lite CMS Studio', buttonText: 'Prepare' });
-      });
+      .catch(() => console.log('API error'));
   }, []);
 
-  // Лоадер, поки дані не завантажились
-  if (!data) {
-    return (
-      <main className="flex-grow-1 d-flex align-items-center justify-content-center">
-        <div className="text-center">
-          <div className="spinner-border text-danger" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <p className="mt-3 text-white">Завантаження CMS...</p>
-        </div>
-      </main>
-    );
-  }
+  if (!data) return null;
 
   return (
-    <>
-      {/* Глобальні стилі — ВИДАЛЕНО .bg-maroon */}
-      <style jsx global>{`
-        .theme-action-btn {
-          background-color: #dc143c !important;
-          border-color: #dc143c !important;
-          color: #fff !important;
-          transition: all 0.2s ease;
-        }
-        .theme-action-btn:hover {
-          background-color: #b3001e !important;
-          border-color: #a0001a !important;
-        }
-        .disclaimer-box {
-          background: rgba(0,0,0,0.5);
-          border: 1px solid #ff3333;
-          border-radius: 12px;
-          padding: 1.5rem;
-          margin-top: 2rem;
-          color: #fff;
-          max-width: 800px;
-        }
-      `}</style>
+    <main className="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+      <div className="container text-center">
 
-      {/* Основний контент */}
-      <main className="flex-grow-1 d-flex align-items-center justify-content-center py-5">
-        <div className="container text-center">
-          <h1 className="display-3 fw-bold mb-4 animate__animated animate__pulse">
-            {data.title}
-          </h1>
+        {/* Назва — X-Files стиль, display-4, правильні кольори */}
+<h1 className={`x-files-title display-4 fw-bold mb-4 ${isDark ? 'text-white' : 'text-dark'}`}>
+  {data.title}
+</h1>
 
-          <p className="lead mb-4">
-            {isDark
-              ? 'Zombies are coming. The apocalypse is near. Prepare or perish.'
-              : 'The Ark of salvation awaits. Build with us for a brighter future.'}
-          </p>
+        <p className="lead mb-4">
+          {isDark ? 'Zombies are coming...' : 'The Ark awaits...'}
+        </p>
 
-          <div className="d-flex justify-content-center mb-4">
-            <ApocalypseTimer />
-          </div>
-
-          <div className="mb-5">
-            <ThemeToggleButton />
-          </div>
-
-          <div className="my-5">
-            <WorldClock />
-          </div>
-
-          <div className="disclaimer-box mx-auto">
-            {isDark ? (
-              <>
-                <p className="mb-2">
-                  <strong>The Prophecy:</strong> Aliens warned Philip Barnett in 2007: <em>"Zombies will rise on 11.11.2026."</em>
-                </p>
-                <p className="mb-0">
-                  <Link href="/details" className="text-danger text-decoration-underline">
-                    → Watch the full interrogation
-                  </Link>
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="mb-2">
-                  <strong>The Ark Project:</strong> A digital shelter built on Lite CMS Studio.
-                </p>
-                <p className="mb-0">
-                  <Link href="/details" className="text-info text-decoration-underline">
-                    → Learn how to board the Ark
-                  </Link>
-                </p>
-              </>
-            )}
-          </div>
+        <div className="d-flex justify-content-center mb-4">
+          <ApocalypseTimer />
         </div>
-      </main>
-    </>
+
+        <ThemeToggleButton />
+
+        <div className="my-5">
+          <WorldClock />
+        </div>
+
+        {/* Дисклеймер — без рамки, просто текст */}
+        <div className="mx-auto bg-transparent border-0 p-0">
+          {isDark ? (
+            <>
+              <p className="mb-2 text-white">
+                <strong>The Prophecy:</strong> Aliens warned Philip Barnett in 2007: <em>"Zombies will rise on 11.11.2026."</em>
+              </p>
+              <p className="mb-0">
+                <Link href="/details" className="text-danger text-decoration-underline">
+                  → Watch the full interrogation
+                </Link>
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="mb-2 text-dark">
+                <strong>The Ark Project:</strong> A digital shelter built on Lite CMS Studio.
+              </p>
+              <p className="mb-0">
+                <Link href="/details" className="text-info text-decoration-underline">
+                  → Learn how to board the Ark
+                </Link>
+              </p>
+            </>
+          )}
+        </div>
+      </div>
+    </main>
   );
 }

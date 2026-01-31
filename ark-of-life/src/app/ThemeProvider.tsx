@@ -20,21 +20,21 @@ const ArkWrapper = dynamic(() => import('@/themes/ark/Wrapper'), { ssr: false })
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   const [isDark, setIsDark] = useState<boolean>(true); // Темна за замовчуванням
 
-  // === Завантажуємо з localStorage ТІЛЬКИ якщо існує ===
+  // Завантажуємо з localStorage тільки якщо існує
   useEffect(() => {
-    if (typeof window === 'undefined') return;  // SSR — ігноруємо
+    if (typeof window === 'undefined') return;
 
     try {
       const saved = localStorage.getItem('ark_theme');
-      if (saved && saved !== 'dark') {  // Тільки якщо не 'dark' — міняємо на світлу
+      if (saved && saved !== 'dark') {
         setIsDark(saved === 'dark');
-      }  // Якщо 'dark' або немає — лишаємо true
+      }
     } catch (error) {
       console.warn('Failed to read theme from localStorage', error);
     }
-  }, []);  // [] — один раз при монтуванні
+  }, []);
 
-  // === Зберігаємо і оновлюємо стилі ===
+  // Зберігаємо та оновлюємо стилі + додаємо класи на body
   useEffect(() => {
     try {
       localStorage.setItem('ark_theme', isDark ? 'dark' : 'light');
@@ -42,7 +42,10 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
 
     if (typeof document !== 'undefined') {
       document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      document.body.classList.toggle('dark', isDark);   // ← додано для стилів .dark
+      document.body.classList.toggle('light', !isDark); // ← додано для стилів .light
 
+      // Глобальні стилі для Navbar/Footer
       const existingStyle = document.getElementById('navbar-footer-theme');
       if (existingStyle) existingStyle.remove();
 
