@@ -1,22 +1,26 @@
-// src/components/Footer.tsx
+// src/components/Footer.tsx — збільшений підвал з посиланням
+'use client';
+
 export default function Footer() {
   return (
-    <footer className="bg-maroon text-white py-3 mt-auto">
+    <footer className="bg-maroon text-white py-5 mt-auto">
       <div className="container">
-        <div className="row">
-          <div className="col-md-6 text-center text-md-start">
-            <p className="mb-0">© 2025 MaxDevStudio. All rights reserved.</p>
-            <p className="mb-0">
-              <a href="https://maxdevstudio.github.io/" className="text-white text-decoration-underline">
-                maxdevstudio.github.io
-              </a>
-            </p>
+        <div className="row text-center">
+          <div className="col-12 mb-3">
+            <p className="mb-1">© 2025 MaxDevStudio. All rights reserved.</p>
+            <a 
+              href="https://maxdevstudio.github.io" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-white text-decoration-underline small"
+            >
+              maxdevstudio.github.io
+            </a>
           </div>
-          <div className="col-md-6 text-center text-md-end">
-            <a href="/" className="text-white mx-2">Home</a>
-            <a href="/about" className="text-white mx-2">About</a>
-            <a href="/donate" className="text-white mx-2">Donate</a>
-            <a href="/contact" className="text-white mx-2">Contact</a>
+
+          {/* Тут пізніше додамо соцмережі та лічильники */}
+          <div className="col-12">
+            <small>Coming soon: Discord • Instagram • YouTube • Facebook</small>
           </div>
         </div>
       </div>

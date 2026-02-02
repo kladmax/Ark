@@ -1,80 +1,59 @@
-// src/app/page.tsx — повертаємо display-4 і правильні кольори
+// src/app/page.tsx — Вітрина: коротка, з посиланнями на демо темплейтів
 'use client';
 
-import { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import { ThemeContext } from './ThemeProvider';
-import ApocalypseTimer from '@/components/ApocalypseTimer';
-import ThemeToggleButton from '@/components/ThemeToggleButton';
-import WorldClock from '@/components/WorldClock';
-
-interface ApiData {
-  title: string;
-  buttonText: string;
-}
+import { useContext } from 'react';
 
 export default function Home() {
-  const [data, setData] = useState<ApiData | null>(null);
   const { isDark } = useContext(ThemeContext);
-
-  useEffect(() => {
-    fetch('/api/content')
-      .then(r => r.json())
-      .then(setData)
-      .catch(() => console.log('API error'));
-  }, []);
-
-  if (!data) return null;
 
   return (
     <main className="flex-grow-1 d-flex align-items-center justify-content-center py-5">
       <div className="container text-center">
+        <h1 className={`x-files-title display-4 fw-bold mb-5 ${isDark ? 'text-white' : 'text-dark'}`}>
+          Lite CMS Studio
+        </h1>
 
-        {/* Назва — X-Files стиль, display-4, правильні кольори */}
-<h1 className={`x-files-title display-4 fw-bold mb-4 ${isDark ? 'text-white' : 'text-dark'}`}>
-  {data.title}
-</h1>
-
-        <p className="lead mb-4">
-          {isDark ? 'Zombies are coming...' : 'The Ark awaits...'}
+        <p className="lead mb-5">
+          {isDark
+            ? 'Готові до апокаліпсису? Обирай свою тему.'
+            : 'Будуй майбутнє з нами. Обирай свою тему.'}
         </p>
 
-        <div className="d-flex justify-content-center mb-4">
-          <ApocalypseTimer />
-        </div>
-
-        <ThemeToggleButton />
-
-        <div className="my-5">
-          <WorldClock />
-        </div>
-
-        {/* Дисклеймер — без рамки, просто текст */}
-        <div className="mx-auto bg-transparent border-0 p-0">
-          {isDark ? (
-            <>
-              <p className="mb-2 text-white">
-                <strong>The Prophecy:</strong> Aliens warned Philip Barnett in 2007: <em>"Zombies will rise on 11.11.2026."</em>
-              </p>
-              <p className="mb-0">
-                <Link href="/details" className="text-danger text-decoration-underline">
-                  → Watch the full interrogation
+        <div className="row g-4 justify-content-center">
+          {/* Картка Zombie */}
+          <div className="col-md-5">
+            <div className="card bg-dark text-white border-danger h-100">
+              <div className="card-body d-flex flex-column justify-content-center text-center">
+                <h3 className="card-title">Zombie Apocalypse</h3>
+                <p className="card-text mb-4">Темна тема для драматичних історій</p>
+                <Link href="/zombie" className="btn btn-danger btn-lg mt-auto">
+                  Переглянути демо →
                 </Link>
-              </p>
-            </>
-          ) : (
-            <>
-              <p className="mb-2 text-dark">
-                <strong>The Ark Project:</strong> A digital shelter built on Lite CMS Studio.
-              </p>
-              <p className="mb-0">
-                <Link href="/details" className="text-info text-decoration-underline">
-                  → Learn how to board the Ark
+              </div>
+            </div>
+          </div>
+
+          {/* Картка Ark */}
+          <div className="col-md-5">
+            <div className="card bg-light text-dark border-info h-100">
+              <div className="card-body d-flex flex-column justify-content-center text-center">
+                <h3 className="card-title">Ark of Salvation</h3>
+                <p className="card-text mb-4">Світла тема для надії та порятунку</p>
+                <Link href="/ark" className="btn btn-info btn-lg mt-auto">
+                  Переглянути демо →
                 </Link>
-              </p>
-            </>
-          )}
+              </div>
+            </div>
+          </div>
         </div>
+
+        <p className="mt-5">
+          <Link href="/donate" className="text-info">
+            Підтримати проєкт →
+          </Link>
+        </p>
       </div>
     </main>
   );

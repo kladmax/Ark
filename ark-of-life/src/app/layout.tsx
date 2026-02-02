@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <body className="h-full d-flex flex-column" data-theme="dark"> {/* ← додаємо data-theme */}
+     <body className="h-100 d-flex flex-column" style={{ minHeight: '100vh' }}>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
