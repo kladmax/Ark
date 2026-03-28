@@ -1,0 +1,15 @@
+/* src/templates/published/base/theme.module.scss — Базова тема (GitHub-style) */
+
+.base-light {
+  background: #ffffff; /* чистий білий */
+  color: #24292e;
+  min-height: 100vh;
+  transition: all 0.5s ease;
+}
+
+.base-dark {
+  background: #0d1117; /* GitHub dark */
+  color: #c9d1d9;
+  min-height: 100vh;
+  transition: all 0.5s ease;
+}

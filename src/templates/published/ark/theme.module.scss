@@ -1,0 +1,15 @@
+/* src/templates/published/base/theme.module.scss — GitHub style */
+
+.base-light {
+  background: #ffffff;
+  color: #24292e;
+  min-height: 100vh;
+  transition: all 0.5s ease;
+}
+
+.base-dark {
+  background: #0d1117;
+  color: #c9d1d9;
+  min-height: 100vh;
+  transition: all 0.5s ease;
+}

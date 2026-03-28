@@ -1,4 +1,4 @@
-// src/templates/published/base/Wrapper.tsx
+// src/templates/published/base/Wrapper.tsx — Базовий Wrapper (GitHub style)
 'use client';
 
 import { useContext } from 'react';

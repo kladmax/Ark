@@ -1,43 +1,46 @@
-// src/app/ark/page.tsx — Демо темплейту Ark of Salvation
+// src/app/zombie/page.tsx — Демо темплейту Zombie Apocalypse
 'use client';
 
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ThemeContext } from '@/app/ThemeProvider';
+import ApocalypseTimer from '@/components/ApocalypseTimer';
 import WorldClock from '@/components/WorldClock';
 import Link from 'next/link';
 
-export default function ArkDemo() {
-  const { isDark } = useContext(ThemeContext);
+export default function ZombieDemo() {
+  const { isDark, setActiveTheme } = useContext(ThemeContext);
+
 
   return (
     <main className="flex-grow-1 py-5">
       <div className="container text-center">
         <h1 className={`x-files-title display-4 fw-bold mb-5 ${isDark ? 'text-white' : 'text-dark'}`}>
-          Ark of Salvation
+          Zombie Apocalypse
         </h1>
 
         <p className="lead mb-5">
-          Світла тема для надії та порятунку. Будуй майбутнє з нами.
+          Темна тема для драматичних історій. Готовий до апокаліпсису?
         </p>
 
-        {/* Годинник */}
+        <div className="d-flex justify-content-center mb-5">
+          <ApocalypseTimer />
+        </div>
+
         <div className="my-5">
           <WorldClock />
         </div>
 
-        {/* Дисклеймер */}
         <div className="disclaimer-box mx-auto bg-transparent border-0 p-0">
-          <p className="mb-2 text-dark">
-            <strong>The Ark Project:</strong> A digital shelter built on Lite CMS Studio.
+          <p className="mb-2 text-white">
+            <strong>The Prophecy:</strong> Aliens warned Philip Barnett in 2007: <em>"Zombies will rise on 11.11.2026."</em>
           </p>
           <p className="mb-0">
-            <Link href="/details" className="text-info text-decoration-underline">
-              → Learn how to board the Ark
+            <Link href="/details" className="text-danger text-decoration-underline">
+              → Watch the full interrogation
             </Link>
           </p>
         </div>
 
-        {/* Кнопка назад */}
         <div className="mt-5">
           <Link href="/" className="btn btn-secondary btn-lg">
             ← Back to Home
