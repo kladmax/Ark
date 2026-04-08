@@ -1,3 +1,4 @@
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import type { CollectionConfig } from 'payload'
 
 import {
