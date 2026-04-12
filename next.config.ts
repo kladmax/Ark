@@ -13,6 +13,7 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 const nextConfig: NextConfig = {
   images: {
+    unoptimized: true,
     localPatterns: [
       {
         pathname: '/api/media/file/**',
