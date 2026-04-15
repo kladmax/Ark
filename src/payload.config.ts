@@ -66,16 +66,7 @@ export default buildConfig({
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
-  plugins: [
-    ...plugins,
-    vercelBlobStorage({
-      enabled: true,
-      collections: {
-        [Media.slug]: true,
-      },
-      token: process.env.BLOB_READ_WRITE_TOKEN,
-    }),
-  ],
+  plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {
@@ -91,10 +82,10 @@ export default buildConfig({
         if (!secret) return false
 
         // If there is no logged in user, then check
-        // for the Vercel Cron secret
-        if (req.headers.get('authorization') === `Bearer ${secret}`) return true
-
-        return false
+        // for the Vercel Cron secret to be present as an
+        // Authorization header:
+        const authHeader = req.headers.get('authorization')
+        return authHeader === `Bearer ${secret}`
       },
     },
     tasks: [],
