@@ -7,62 +7,38 @@ import {
   lexicalEditor,
   UnderlineFeature,
   type LinkFields,
-  HeadingFeature,
-  InlineCodeFeature,
-  BlockquoteFeature,
-  OrderedListFeature,
-  UnorderedListFeature,
-  HorizontalRuleFeature,
-  UploadFeature,
-  FixedToolbarFeature,
-  AlignFeature,
-  BlocksFeature, // Додаємо основу для майбутніх YouTube-блоків
 } from '@payloadcms/richtext-lexical'
 
 export const defaultLexical = lexicalEditor({
   features: [
-    FixedToolbarFeature(),
     ParagraphFeature(),
     UnderlineFeature(),
     BoldFeature(),
     ItalicFeature(),
-    AlignFeature(),
-    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3'] }),
-    OrderedListFeature(),
-    UnorderedListFeature(),
-    BlockquoteFeature(),
-    InlineCodeFeature(),
-    HorizontalRuleFeature(),
-    UploadFeature({
-      collections: {
-        media: {
-          fields: [
-            {
-              name: 'caption',
-              type: 'text',
-              label: 'Підпис',
-            },
-          ],
-        },
-      },
-    }),
-    // BlocksFeature — це база для YouTube та інших кастомних штук
-    BlocksFeature({
-      blocks: [
-        // Сюди ми завтра-післязавтра додамо твій YouTube блок
-      ],
-    }),
     LinkFeature({
       enabledCollections: ['pages', 'posts'],
       fields: ({ defaultFields }) => {
+        const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
+          if ('name' in field && field.name === 'url') return false
+          return true
+        })
+
         return [
-          ...defaultFields,
+          ...defaultFieldsWithoutUrl,
           {
-            name: 'rel',
-            type: 'select',
-            label: 'Rel (SEO)',
-            options: ['noopener', 'noreferrer', 'nofollow'],
-            hasMany: true,
+            name: 'url',
+            type: 'text',
+            admin: {
+              condition: (_data, siblingData) => siblingData?.linkType !== 'internal',
+            },
+            label: ({ t }) => t('fields:enterURL'),
+            required: true,
+            validate: ((value, options) => {
+              if ((options?.siblingData as LinkFields)?.linkType === 'internal') {
+                return true // no validation needed, as no url should exist for internal links
+              }
+              return value ? true : 'URL is required'
+            }) as TextFieldSingleValidation,
           },
         ]
       },
